@@ -3,10 +3,17 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
+
+class Address(BaseModel):
+    city: str
+    state: str
+    zip_code: str
+
 class User(BaseModel):
     name: str
     age: int
     email: str
+    address: Address
 
 # Home route
 @app.get("/")
@@ -48,10 +55,25 @@ def items(name: str = "Null", price: int = 0):
         }
 
 
-
+# Request Body + POST API + Pydantic
 @app.post("/create-user")
 def create_user(user: User):
     return {
         "message": "User Created",
         "data": user
         }
+
+
+# Pydantic Models + Data Validation + Nested Schemas
+@app.post("/create_user")
+def create_user(user: User):
+    return {
+        "message": "User Created",
+        "data": user
+    }
+
+
+# Nested Loops
+@app.post("/create_user_with_address")
+def create_user_with_address(user: User):
+    return user
