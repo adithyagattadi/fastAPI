@@ -89,6 +89,8 @@ def create_user_with_address(user: User):
     return user
 
 
+# CRUD Operations for Todos ------------------
+
 # Create Todos
 @app.post("/todos")
 def create_todo(todo: Todo):
@@ -97,11 +99,12 @@ def create_todo(todo: Todo):
         "message": "Todo created successfully",
         "data": todo
     }
+
 # Read Todos
 @app.get("/todos")
 def get_todos():
     return todos
-# Update Todos
+
 @app.get("/todos/{todo_id}")
 def get_todo(todo_id: int):
     for todo in todos:
@@ -109,6 +112,7 @@ def get_todo(todo_id: int):
             return todo
     return {"message": "Todo not found"}
 
+# Update Todos
 @app.put("/todos/{todo_id}")
 def update_todo(todo_id: int, updated_todo: Todo):
     for index, todo in enumerate(todos):
@@ -119,6 +123,7 @@ def update_todo(todo_id: int, updated_todo: Todo):
                 "data": updated_todo
             }
     return {"message": "Todo not found"}
+
 # Delete Todos
 @app.delete("/todos/{todo_id}")
 def delete_todo(todo_id: int):
