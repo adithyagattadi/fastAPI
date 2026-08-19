@@ -2,29 +2,26 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 app = FastAPI()
-users = []
+
+{
+    "name": "Adi",
+    "age": 23,
+    "Password": 12345
+}
 
 class User(BaseModel):
-    name: str
-    age: int
+    name:str
+    age:int
+    password:str
 
-@app.post("/users")
-def create_user(user:User):
-    users.append(user)
-    return{
-        "message": "User created",
-        "data": user
-    }
+class userResponse(BaseModel):
+    name:str
+    age:int
 
-@app.put("/users/{user_id}")
-def updated_user(user_id: int, user:User, notify:bool=False):
-    if user_id < len(users):
-        users[user_id] = user
-        return{
-            "message": "User updated",
-            "notify": notify,
-            "data": user
-        }
+@app.get("/user", response_model=userResponse)
+def get_user():
     return{
-        "error": "User not found"
+        "name":"Adi",
+        "age":23,
+        "password":12345
     }
