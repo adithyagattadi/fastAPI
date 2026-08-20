@@ -1,40 +1,24 @@
-from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI, Depends
 
 app = FastAPI()
 
-class user_not_found_exception(Exception):
-    def __init__(self, name:str):
-        self.name = name
+# def common_logic():
+#     return{
+#         "message": "common logic executed"
+#     }
+# @app.get("/home")
+# def home(data=Depends(common_logic)):
+#     return data
 
-@app.exception_handler(user_not_found_exception)
-def user_not_found_handler(request: Request, exc: user_not_found_exception):
-    return JSONResponse(
-        status_code=404,
-        content={
-            "status": "error",
-            "message": f"User {exc.name} not found"
-        }
-    )
-
-@app.get("/user/{name}")
-def get_user(name:str):
-    if name != "Adi":
-        raise user_not_found_exception(
-            name
-        )
-    return{
-        "name":name
+def get_current_user():
+    return {
+        "user": "mohit"
     }
 
-# @app.get("/users/{user_id}")
-# def get_user(user_id:int):
-#     if user_id != 1:
-#         raise HTTPException(
-#             status_code = 404,
-#             detail = "User not found"
-#         )
-#     return{
-#         "id": 1,
-#         "name": "Adi"
-#     }
+@app.get("/profile")
+def profile(user=Depends(get_current_user)):
+    return user
+
+@app.get("/dashboard")
+def profile(user=Depends(get_current_user)):
+    return user
