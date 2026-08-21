@@ -40,3 +40,4 @@ def secure_data(user=Depends(verify_token)):
 # def profile(user=Depends(get_current_user)):
 #     return user
 
+
