@@ -41,3 +41,25 @@ def create_todo(title:str, db: Session = Depends(get_db)):
         "message": "Todo created successfully",
         "data": todo
     }
+
+# Read API
+@app.get("/todos/")
+def  get_todos(db: Session = Depends(get_db)):
+    todos = db.query(Todo).all()
+    return {
+        "message": "Todos retrieved successfully",
+        "data": todos
+    }
+
+@app.get("/todos/{todo_id}")
+def get_todo(todo_id: int, db: Session = Depends(get_db)):
+    todo = db.query(Todo).filter(Todo.id == todo_id).first()
+    if not todo:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Todo with id {todo_id} not found"
+        )
+    return {
+        "message": "Todo retrieved successfully",
+        "data": todo
+    }
